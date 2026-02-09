@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\DTOs\CheckoutDTO;
-use App\Exceptions\EmptyCartException;
-use App\Exceptions\PaymentFailedException;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutRequest;
 use App\Http\Resources\OrderResource;
@@ -23,22 +22,12 @@ class CheckoutController extends Controller
 
     public function store(CheckoutRequest $request): JsonResponse
     {
-        try {
-            $dto = CheckoutDTO::fromRequest($request);
+        $dto = CheckoutDTO::fromRequest($request);
 
-            $order = $this->checkoutService->handle($dto);
+        $order = $this->checkoutService->handle($dto);
 
-            return (new OrderResource($order))
-                ->response()
-                ->setStatusCode(Response::HTTP_CREATED);
-        } catch (EmptyCartException $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
-        } catch (PaymentFailedException $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-            ], Response::HTTP_PAYMENT_REQUIRED);
-        }
+        return (new OrderResource($order))
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 }

@@ -9,7 +9,7 @@ use App\Actions\Checkout\ClearCartAction;
 use App\Actions\Checkout\CreateOrderAction;
 use App\Actions\Checkout\ProcessPaymentAction;
 use App\DTOs\CheckoutDTO;
-use App\Exceptions\EmptyCartException;
+
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\User;
@@ -31,9 +31,7 @@ class CheckoutService
 
         $cart = Cart::where('user_id', $user->id)->first();
 
-        if (!$cart || $cart->items->isEmpty()) {
-            throw new EmptyCartException();
-        }
+
 
         $totalAmount = $this->calculateCartTotal->execute($cart);
 
