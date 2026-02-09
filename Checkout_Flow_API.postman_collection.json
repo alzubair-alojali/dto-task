@@ -1,0 +1,182 @@
+{
+    "info": {
+        "_postman_id": "checkout-flow-collection",
+        "name": "Checkout Flow API",
+        "description": "Collection for testing the Checkout Flow REST API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://127.0.0.1:8000",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Checkout",
+            "item": [
+                {
+                    "name": "Checkout - Success",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": 1,\n    \"payment_method\": \"credit_card\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/checkout",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "checkout"
+                            ]
+                        },
+                        "description": "Successful checkout - creates order from user's cart items"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Checkout - Empty Cart (422)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": 1,\n    \"payment_method\": \"credit_card\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/checkout",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "checkout"
+                            ]
+                        },
+                        "description": "Test empty cart error - run after successful checkout or with user that has no cart"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Checkout - Invalid User (422)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": 9999,\n    \"payment_method\": \"credit_card\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/checkout",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "checkout"
+                            ]
+                        },
+                        "description": "Test validation error - user does not exist"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Checkout - Missing Fields (422)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": 1\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/checkout",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "checkout"
+                            ]
+                        },
+                        "description": "Test validation error - missing payment_method field"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Checkout - PayPal Method",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": 1,\n    \"payment_method\": \"paypal\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/checkout",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "checkout"
+                            ]
+                        },
+                        "description": "Checkout with PayPal payment method"
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}
